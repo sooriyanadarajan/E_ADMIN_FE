@@ -1,238 +1,185 @@
-import { useState } from "react";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
-import "react-pro-sidebar/dist/css/styles.css";
-import { tokens } from "../../theme";
-import AppsIcon from '@mui/icons-material/Apps';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LayersIcon from '@mui/icons-material/Layers';
-import ViewInArIcon from '@mui/icons-material/ViewInAr';
-import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import PersonIcon from '@mui/icons-material/Person';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import PhotoIcon from '@mui/icons-material/Photo';
-import AssessmentIcon from '@mui/icons-material/Assessment';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LaunchIcon from '@mui/icons-material/Launch';
-import HelpIcon from '@mui/icons-material/Help';
-import LiveHelpIcon from '@mui/icons-material/LiveHelp';
-import PolicyIcon from '@mui/icons-material/Policy';
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-
-const Item = ({ title, to, icon, selected, setSelected }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  return (
-    <MenuItem
-      active={selected === title}
-      style={{
-        color: colors.grey[100],
-      }}
-      onClick={() => setSelected(title)}
-      icon={icon}
-    >
-      <Typography>{title}</Typography>
-      <Link to={to} />
-    </MenuItem>
-  );
-};
+import React, { useState } from 'react';
+import './Sidebar.css';
+import logo from '../../assests/logo.png';
 
 const Sidebar = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+  const [showSidebar, setShowSidebar] = useState(true);
+  const [showDropdown, setShowDropdown] = useState(null);
+
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
+
+  const toggleDropdown = (id) => {
+    setShowDropdown(showDropdown === id ? null : id);
+  };
 
   return (
-    <Box
-      sx={{
-        "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#6870fa !important",
-        },
-      }}
-    >
-      <ProSidebar collapsed={isCollapsed}>
-        <Menu iconShape="square">
-          <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{
-              margin: "10px 0 20px 0",
-              color: colors.grey[100],
-            }}
-          >
-            {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="15px"
-              >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  ADMIN
-                </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
-              </Box>
-            )}
-          </MenuItem>
-
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Main Home
-            </Typography>
-            <Item
-              title="Dashboard"
-              to="/"
-              icon={<AppsIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              All Pages
-            </Typography>
-            <Item
-              title="Ecommerce"
-              to="/ecommerce"
-              icon={<ShoppingCartIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Category"
-              to="/category"
-              icon={<LayersIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Attributes"
-              to="/attributes"
-              icon={<ViewInArIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Orders"
-              to="/orders"
-              icon={<NoteAddIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Users"
-              to="/users"
-              icon={<PersonIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Roles"
-              to="/roles"
-              icon={<PersonAddIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Gallery"
-              to="/gallery"
-              icon={<PhotoIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Report"
-              to="/report"
-              icon={<AssessmentIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Settings
-            </Typography>
-            <Item
-              title="Location"
-              to="/location"
-              icon={<LocationOnIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Settings"
-              to="/settings"
-              icon={<SettingsIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Pages"
-              to="/pages"
-              icon={<LaunchIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Supoort
-            </Typography>
-            <Item
-              title="Help Center"
-              to="/helpcenter"
-              icon={<HelpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="FAQ's "
-              to="/faqs"
-              icon={<LiveHelpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Privacy Policy"
-              to="/privacypolicy"
-              icon={<PolicyIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-          </Box>
-        </Menu>
-      </ProSidebar>
-    </Box>
+    <div className={`sidebar ${showSidebar ? 'show' : ''}`}>
+      <div className="sidebar-header">
+        <div className={`toggle-sidebar ${showSidebar ? 'logo-hide' : 'logo-show'}`} onClick={toggleSidebar}>
+          <img src={logo} className="logo" />
+          <i className={`${showSidebar ? 'icon-menu-left' : 'icon-menu-left rotate'} toggle-icon`}></i>
+        </div>
+      </div>
+      <div className="sidebar-menu">
+        <ul>
+          <p>Menu Menu</p>
+          <li>
+            <a href="#" className="active">
+              <div className='iconandtext'>
+                <i className="icon-grid"></i> Dashboard
+              </div>
+            </a>
+          </li>
+          <p>All Pages</p>
+          <li onClick={() => toggleDropdown('product')}>
+            <a className={`${showDropdown === 'product' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-shopping-cart"></i> Product
+              </div>
+              <i className={`chevron ${showDropdown === 'product' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'product' ? 'show' : ''}`}>
+              <li><a href="#">Product List</a></li>
+              <li><a href="#">Add Product</a></li>
+            </ul>
+          </li>
+          <li onClick={() => toggleDropdown('Category')}>
+            <a className={`${showDropdown === 'Category' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-layers"></i> Category
+              </div>
+              <i className={`chevron ${showDropdown === 'Category' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'Category' ? 'show' : ''}`}>
+              <li><a href="#">Category List</a></li>
+              <li><a href="#">Add Category</a></li>
+            </ul>
+          </li>
+          <li onClick={() => toggleDropdown('Roles')}>
+            <a className={`${showDropdown === 'Roles' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-user-plus"></i> Roles
+              </div>
+              <i className={`chevron ${showDropdown === 'Roles' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'Roles' ? 'show' : ''}`}>
+              <li><a href="#">All Roles</a></li>
+              <li><a href="#">Create Role</a></li>
+              <li><a href="#">Permessions</a></li>
+            </ul>
+          </li>
+          <li onClick={() => toggleDropdown('Users')}>
+            <a className={`${showDropdown === 'Users' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-user"></i> Users
+              </div>
+              <i className={`chevron ${showDropdown === 'Users' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'Users' ? 'show' : ''}`}>
+              <li><a href="#">All Users</a></li>
+              <li><a href="#">Create User</a></li>
+            </ul>
+          </li>
+          <li onClick={() => toggleDropdown('Orders')}>
+            <a className={`${showDropdown === 'Orders' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-layers"></i> Orders
+              </div>
+              <i className={`chevron ${showDropdown === 'Orders' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'Orders' ? 'show' : ''}`}>
+              <li><a href="#">Order list</a></li>
+              <li><a href="#">Order Details</a></li>
+            </ul>
+          </li>
+          <li onClick={() => toggleDropdown('PickUp Orders')}>
+            <a className={`${showDropdown === 'PickUp Orders' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-layers"></i> PickUp Orders
+              </div>
+              <i className={`chevron ${showDropdown === 'PickUp Orders' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'PickUp Orders' ? 'show' : ''}`}>
+              <li><a href="#">Orders List</a></li>
+            </ul>
+          </li>
+          <li onClick={() => toggleDropdown('Delivery Orders')}>
+            <a className={`${showDropdown === 'Delivery Orders' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-layers"></i> Delivery Orders
+              </div>
+              <i className={`chevron ${showDropdown === 'Delivery Orders' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'Delivery Orders' ? 'show' : ''}`}>
+              <li><a href="#">Orders List</a></li>
+            </ul>
+          </li>
+          <li onClick={() => toggleDropdown('Reviews')}>
+            <a className={`${showDropdown === 'Reviews' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-layers"></i> Reviews
+              </div>
+              <i className={`chevron ${showDropdown === 'Reviews' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'Reviews' ? 'show' : ''}`}>
+              <li><a href="#">Reviews List</a></li>
+              <li><a href="#">Review Details</a></li>
+            </ul>
+          </li>
+          <li onClick={() => toggleDropdown('Payments')}>
+            <a className={`${showDropdown === 'Payments' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-layers"></i> Payments
+              </div>
+              <i className={`chevron ${showDropdown === 'Payments' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'Payments' ? 'show' : ''}`}>
+              <li><a href="#">Payment List </a></li>
+              <li><a href="#">Payment Details</a></li>
+            </ul>
+          </li>
+          <li onClick={() => toggleDropdown('Refund')}>
+            <a className={`${showDropdown === 'Refund' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-layers"></i> Refund
+              </div>
+              <i className={`chevron ${showDropdown === 'Refund' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'Refund' ? 'show' : ''}`}>
+              <li><a href="#">Refund List</a></li>
+              <li><a href="#">Refund Details</a></li>
+            </ul>
+          </li>
+          <li onClick={() => toggleDropdown('Reports')}>
+            <a className={`${showDropdown === 'Reports' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-clipboard"></i> Reports
+              </div>
+              <i className={`chevron ${showDropdown === 'Reports' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'Reports' ? 'show' : ''}`}>
+              <li><a href="#">All Reports</a></li>
+            </ul>
+          </li>
+          <li onClick={() => toggleDropdown('Home Page Settings')}>
+            <a className={`${showDropdown === 'Home Page Settings' ? 'active' : ''}`} href="#">
+              <div className='iconandtext'>
+                <i className="icon-layers"></i> Home Page Settings
+              </div>
+              <i className={`chevron ${showDropdown === 'Home Page Settings' ? 'icon-chevron-up' : 'icon-chevron-down'}`}></i>
+            </a>
+            <ul className={`dropdown-menu ${showDropdown === 'Home Page Settings' ? 'show' : ''}`}>
+              <li><a href="#">Banners</a></li>
+              <li><a href="#">Top Products</a></li>
+              <li><a href="#">Best Selling Products</a></li>
+              <li><a href="#">Special Offers</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
   );
 };
 
